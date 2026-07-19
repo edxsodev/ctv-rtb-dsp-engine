@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive 3D Connected TV (CTV) DSP & OpenRTB Bidding Engine Tech Simulator (Amagi, Samsung Ads, LG Channels, JioCinema, Hotstar).">
+    <title>3D Connected TV (CTV) DSP & RTB Tech Simulator</title>
+    <!-- Google Fonts for Modern Clean Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="title">AD-NEXUS</span>
+                    <span class="subtitle">3D CTV Tech Lab</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" id="tab-overview" onclick="switchTab('overview')">
+                    <span class="icon">🧊</span>
+                    <span class="label">3D Network & Tech</span>
+                </button>
+                <button class="nav-item" id="tab-stepbystep" onclick="switchTab('stepbystep')">
+                    <span class="icon">🔬</span>
+                    <span class="label">Step-by-Step Bidding</span>
+                </button>
+                <button class="nav-item" id="tab-simulator" onclick="switchTab('simulator')">
+                    <span class="icon">⚡</span>
+                    <span class="label">Live RTB Terminal</span>
+                </button>
+                <button class="nav-item" id="tab-campaigns" onclick="switchTab('campaigns')">
+                    <span class="icon">🎯</span>
+                    <span class="label">Campaign Manager</span>
+                </button>
+                <button class="nav-item" id="tab-analytics" onclick="switchTab('analytics')">
+                    <span class="icon">📊</span>
+                    <span class="label">VAST Performance</span>
+                </button>
+                <button class="nav-item" id="tab-calculator" onclick="switchTab('calculator')">
+                    <span class="icon">💰</span>
+                    <span class="label">Licensing Models</span>
+                </button>
+            </nav>
+
+            <div class="system-status-widget">
+                <div class="status-indicator">
+                    <span class="status-dot pulsing"></span>
+                    <span class="status-text">RTB Bidder Active (100ms)</span>
+                </div>
+                <div class="stats-mini">
+                    <div class="stat-line">
+                        <span class="lbl">Speed:</span>
+                        <span class="val">25,000 QPS</span>
+                    </div>
+                    <div class="stat-line">
+                        <span class="lbl">Protocol:</span>
+                        <span class="val">OpenRTB 2.5 / VAST 4.2</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title" id="page-title-heading">3D Interactive Connected TV (CTV) Tech Lab</h1>
+                    <p class="page-subtitle" id="page-subtitle-desc">Visualizing real-time video ad auctions between Smart TVs (Samsung, LG, Sony) and ad exchanges (Amagi, Samsung Ads).</p>
+                </div>
+                <div class="header-right">
+                    <button class="control-btn toggle-simulator-btn" id="btn-toggle-engine" onclick="toggleEngine()">
+                        <span class="btn-icon">⏸️</span>
+                        <span class="btn-text">Pause Live Engine</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- TABS CONTAINER -->
+            <div class="tab-content-container">
+
+                <!-- TAB 1: 3D NETWORK OVERVIEW -->
+                <section class="tab-pane active" id="pane-overview">
+                    <div class="explainer-banner">
+                        <h3>💡 Easy Tech Summary (Sir Ka Project Samajhiye)</h3>
+                        <p>Connected TV (Smart TV) par ad lagane ke liye hamara <strong>DSP Bidding Engine</strong> har 100 millisecond mein Smart TV se aane wali request ko padhta hai, match karta hai, aur HD Video Ad response bhejta hai. Neeche 3D canvas mein rotate karke dekhein ki poora network live kaise kaam karta hai!</p>
+                    </div>
+
+                    <!-- Interactive 3D Canvas Container -->
+                    <div class="section-card hero-3d-card">
+                        <div class="card-header-flex">
+                            <div>
+                                <h2>Interactive 3D Bidding Network Visualizer</h2>
+                                <p class="card-desc">Drag to rotate the 3D scene. Watch signal packets fly between Smart TV Screen ➔ Ad Exchange ➔ DSP Bidder Engine.</p>
+                            </div>
+                            <div class="node-status-pills">
+                                <span class="node-pill pill-tv">📺 Smart TV Node</span>
+                                <span class="node-pill pill-ex">📡 Exchange Hub</span>
+                                <span class="node-pill pill-server">⚡ RTB Engine Tower</span>
+                            </div>
+                        </div>
+
+                        <!-- Canvas mount -->
+                        <div id="threejs-canvas-container" class="canvas-3d-viewport"></div>
+                    </div>
+
+                    <!-- Interactive 3D Node Explainer Cards -->
+                    <div class="grid-3-col">
+                        <div class="tech-card" onclick="highlight3DConcept('tv')">
+                            <div class="tech-icon">📺</div>
+                            <h3>1. Smart TV Device</h3>
+                            <p>Samsung Tizen, LG webOS, ya Android TV viewer jab content dekhta hai, ad break par ek signal (Bid Request) initiate hota hai.</p>
+                            <span class="tech-tag">Payload: OpenRTB 2.5 JSON</span>
+                        </div>
+                        <div class="tech-card" onclick="highlight3DConcept('exchange')">
+                            <div class="tech-icon">📡</div>
+                            <h3>2. Supply Exchange (SSP)</h3>
+                            <p>Amagi ADS PLUS, Samsung Ads, ya LG Channels ad space ki request hamare DSP Engine tak routes karte hain.</p>
+                            <span class="tech-tag">Latency Limit: 120ms</span>
+                        </div>
+                        <div class="tech-card" onclick="highlight3DConcept('server')">
+                            <div class="tech-icon">⚡</div>
+                            <h3>3. RTB Engine Bidder</h3>
+                            <p>Hamara engine targeting match karta hai (Geo, CPM Floor, Device Type) aur best campaign select karke bid lagata hai.</p>
+                            <span class="tech-tag">Response: VAST 4.2 XML</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: STEP-BY-STEP INTERACTIVE TECH EXPLORER -->
+                <section class="tab-pane" id="pane-stepbystep">
+                    <div class="section-card">
+                        <h2>Step-by-Step CTV Auction Interactive Lab</h2>
+                        <p class="card-desc">Click through each step below to see how a Smart TV ad auction executes in under 100 milliseconds.</p>
+                        
+                        <!-- Step Selector Tabs -->
+                        <div class="step-nav-bar">
+                            <button class="step-nav-btn active" id="step-btn-1" onclick="showAuctionStep(1)">
+                                <span class="step-num">1</span>
+                                <span class="step-lbl">Ad Break Trigger</span>
+                            </button>
+                            <button class="step-nav-btn" id="step-btn-2" onclick="showAuctionStep(2)">
+                                <span class="step-num">2</span>
+                                <span class="step-lbl">OpenRTB Request</span>
+                            </button>
+                            <button class="step-nav-btn" id="step-btn-3" onclick="showAuctionStep(3)">
+                                <span class="step-num">3</span>
+                                <span class="step-lbl">DSP Bid Matching</span>
+                            </button>
+                            <button class="step-nav-btn" id="step-btn-4" onclick="showAuctionStep(4)">
+                                <span class="step-num">4</span>
+                                <span class="step-lbl">VAST Response</span>
+                            </button>
+                            <button class="step-nav-btn" id="step-btn-5" onclick="showAuctionStep(5)">
+                                <span class="step-num">5</span>
+                                <span class="step-lbl">Video Render</span>
+                            </button>
+                        </div>
+
+                        <!-- Step Detail Container -->
+                        <div class="step-detail-view" id="step-detail-content">
+                            <!-- Dynamic Content Rendered via JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: LIVE RTB TERMINAL -->
+                <section class="tab-pane" id="pane-simulator">
+                    <div class="grid-rtb-console">
+                        <div class="rtb-live-panel">
+                            <div class="panel-header">
+                                <h3>Live OpenRTB Bidding Activity Console</h3>
+                                <div class="panel-controls">
+                                    <button class="action-btn" id="btn-clear-logs" onclick="clearLogs()">Clear Terminal</button>
+                                </div>
+                            </div>
+                            <div class="console-log-feed" id="log-console">
+                            </div>
+                        </div>
+
+                        <div class="rtb-inspect-panel">
+                            <div class="panel-header">
+                                <h3>OpenRTB JSON & VAST XML Inspector</h3>
+                            </div>
+                            <div class="inspect-tabs">
+                                <button class="inspect-tab active" id="inspect-tab-req" onclick="switchInspectTab('req')">Bid Request (OpenRTB)</button>
+                                <button class="inspect-tab" id="inspect-tab-resp" onclick="switchInspectTab('resp')">Bid Response (VAST XML)</button>
+                            </div>
+                            <div class="inspect-body">
+                                <pre><code id="json-inspector-content" class="language-json">// Select a log entry on the left to inspect raw payloads</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: CAMPAIGN MANAGER -->
+                <section class="tab-pane" id="pane-campaigns">
+                    <div class="campaign-summary-bar">
+                        <div class="summary-widget">
+                            <span class="lbl">Active Campaigns</span>
+                            <span class="val" id="summary-active-count">3</span>
+                        </div>
+                        <div class="summary-widget">
+                            <span class="lbl">Total Budget Allocation</span>
+                            <span class="val" id="summary-total-budget">₹45,00,000</span>
+                        </div>
+                        <div class="summary-widget">
+                            <span class="lbl">Today's Simulated Spend</span>
+                            <span class="val" id="summary-total-spend">₹0.00</span>
+                        </div>
+                        <div class="summary-widget">
+                            <span class="lbl">Total TV Impressions</span>
+                            <span class="val" id="summary-total-impressions">0</span>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header-flex">
+                            <h3>DSP Campaign Manager</h3>
+                            <button class="primary-btn" id="btn-create-campaign" onclick="openCampaignModal()">➕ Create Campaign</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="campaigns-table">
+                                <thead>
+                                    <tr>
+                                        <th>Campaign Title</th>
+                                        <th>Target SSP / Channels</th>
+                                        <th>Target City</th>
+                                        <th>Target eCPM</th>
+                                        <th>Total Budget</th>
+                                        <th>Spent (₹)</th>
+                                        <th>TV Impressions</th>
+                                        <th>Video Completion (VCR)</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: VAST PERFORMANCE ANALYTICS -->
+                <section class="tab-pane" id="pane-analytics">
+                    <div class="grid-2-col">
+                        <div class="section-card">
+                            <h3>Bidding Engine Efficiency Metrics</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-block">
+                                    <span class="label">Total Requests Received</span>
+                                    <span class="value" id="analytic-eval-bids">0</span>
+                                </div>
+                                <div class="metric-block">
+                                    <span class="label">Bids Submitted</span>
+                                    <span class="value" id="analytic-placed-bids">0</span>
+                                </div>
+                                <div class="metric-block">
+                                    <span class="label">Auctions Won</span>
+                                    <span class="value" id="analytic-won-bids">0</span>
+                                </div>
+                                <div class="metric-block">
+                                    <span class="label">Win Rate %</span>
+                                    <span class="value" id="analytic-win-rate">0.0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <h3>Smart TV Video Completion Funnel (VCR)</h3>
+                            <p class="card-desc">Connected TV ad completion rates India mein 85%+ hoti hain kyunki Smart TV par skip option nahi hota.</p>
+                            
+                            <div class="completion-funnel-wrapper">
+                                <div class="funnel-stage">
+                                    <div class="stage-label">Ad Start (0%)</div>
+                                    <div class="stage-progress-bar">
+                                        <div class="progress" id="funnel-start-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <div class="stage-value" id="funnel-start-val">0</div>
+                                </div>
+                                <div class="funnel-stage">
+                                    <div class="stage-label">First Quartile (25%)</div>
+                                    <div class="stage-progress-bar">
+                                        <div class="progress" id="funnel-q1-bar" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="stage-value" id="funnel-q1-val">0 (0%)</div>
+                                </div>
+                                <div class="funnel-stage">
+                                    <div class="stage-label">Midpoint (50%)</div>
+                                    <div class="stage-progress-bar">
+                                        <div class="progress" id="funnel-q2-bar" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="stage-value" id="funnel-q2-val">0 (0%)</div>
+                                </div>
+                                <div class="funnel-stage">
+                                    <div class="stage-label">Third Quartile (75%)</div>
+                                    <div class="stage-progress-bar">
+                                        <div class="progress" id="funnel-q3-bar" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="stage-value" id="funnel-q3-val">0 (0%)</div>
+                                </div>
+                                <div class="funnel-stage">
+                                    <div class="stage-label">Full Completed (100%)</div>
+                                    <div class="stage-progress-bar">
+                                        <div class="progress" id="funnel-q4-bar" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="stage-value" id="funnel-q4-val">0 (0%)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="section-card">
+                            <h3>Publisher Share (Amagi, Samsung Ads, LG, etc.)</h3>
+                            <div class="chart-flex">
+                                <div class="chart-graphic">
+                                    <svg viewBox="0 0 200 200" width="100%" height="180px" id="publisher-pie-chart"></svg>
+                                </div>
+                                <div class="chart-legend" id="publisher-chart-legend"></div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <h3>Smart TV Operating System Share</h3>
+                            <div class="bar-chart-container" id="device-os-chart"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: LICENSING & PRICING MODELS -->
+                <section class="tab-pane" id="pane-calculator">
+                    <div class="calculator-header-bar">
+                        <h3>Licensing Models: White-Label Subscription vs DSP Rev-Share Commission (in ₹ INR)</h3>
+                        <p>Overview of technical deployment costs and infrastructure options for agencies launching an independent CTV bidding stack.</p>
+                    </div>
+
+                    <div class="grid-calc-columns">
+                        <div class="section-card calc-inputs-card">
+                            <h3>Spend & Volume Simulator</h3>
+                            
+                            <div class="input-group-range">
+                                <div class="range-labels">
+                                    <label for="slider-media-spend">Monthly Client Ad Spend (₹ INR)</label>
+                                    <span class="range-value" id="val-media-spend">₹50.00 Lakhs</span>
+                                </div>
+                                <input type="range" id="slider-media-spend" min="500000" max="25000000" step="500000" value="5000000" oninput="updateROICalculations()">
+                            </div>
+
+                            <div class="input-group-range">
+                                <div class="range-labels">
+                                    <label for="select-qps-tier">Engine Processing Speed (QPS Tier)</label>
+                                    <span class="range-value" id="val-qps-tier">25,000 QPS</span>
+                                </div>
+                                <select id="select-qps-tier" onchange="updateROICalculations()">
+                                    <option value="10000">10,000 QPS (Small agency - Direct PMP deals)</option>
+                                    <option value="25000" selected>25,000 QPS (Standard Indian CTV bidder)</option>
+                                    <option value="50000">50,000 QPS (Multi-publisher open auction)</option>
+                                    <option value="100000">100,000 QPS (Enterprise scale national DSP)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="section-card calc-outputs-card">
+                            <h3>Monthly Tech Cost Comparison</h3>
+                            <div class="comparison-visualizer">
+                                <div class="visual-bar-group">
+                                    <span class="bar-lbl">Standard DSP Commission (12% Rev-Share)</span>
+                                    <div class="visual-bar-container">
+                                        <div class="bar revshare-bar" id="roi-revshare-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <span class="bar-val font-accent" id="roi-revshare-val">₹6,00,000 / mo</span>
+                                </div>
+
+                                <div class="visual-bar-group">
+                                    <span class="bar-lbl">White-Label DSP Fixed Subscription + Cloud Rent</span>
+                                    <div class="visual-bar-container">
+                                        <div class="bar subscription-bar" id="roi-subscription-bar" style="width: 60%;"></div>
+                                    </div>
+                                    <span class="bar-val font-accent" id="roi-subscription-val">₹3,80,000 / mo</span>
+                                </div>
+                            </div>
+
+                            <div class="roi-summary-alert" id="roi-summary-alert-box">
+                                <div class="roi-savings-badge">
+                                    <span class="title">Net Monthly Savings</span>
+                                    <span class="amount" id="roi-savings-amount">₹2.20 Lakhs Saved / month</span>
+                                    <span class="percentage-savings" id="roi-savings-percent">36% Direct Cost Reduction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <h3>White-Label CTV Engine Vendors Comparison</h3>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor Name</th>
+                                        <th>Setup Time</th>
+                                        <th>Monthly Subscription Fee (₹)</th>
+                                        <th>Ideal For</th>
+                                        <th>Key Features</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vendor-comparison-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- CREATE CAMPAIGN MODAL -->
+    <div class="modal-overlay" id="campaign-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Create New CTV Campaign</h3>
+                <button class="close-btn" onclick="closeCampaignModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="campaign-form" onsubmit="handleCampaignSubmit(event)">
+                    <div class="form-group">
+                        <label for="camp-name">Campaign Title</label>
+                        <input type="text" id="camp-name" required placeholder="e.g., Tata Punch EV - Smart TV Launch">
+                    </div>
+                    
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="camp-budget">Total Budget (₹ INR)</label>
+                            <input type="number" id="camp-budget" min="10000" step="5000" required value="500000">
+                        </div>
+                        <div class="form-group">
+                            <label for="camp-cpm">Target Bidding eCPM (₹ INR)</label>
+                            <input type="number" id="camp-cpm" min="100" max="2000" step="10" required value="750">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="camp-geo">Target City / Region</label>
+                            <select id="camp-geo">
+                                <option value="Pan-India">Pan-India All Cities</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Delhi NCR">Delhi NCR</option>
+                                <option value="Bengaluru">Bengaluru</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Kolkata">Kolkata</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="camp-creative-type">Creative Protocol</label>
+                            <select id="camp-creative-type">
+                                <option value="vast42">VAST 4.2 Linear Video (15s/30s HD)</option>
+                                <option value="vast4wrapper">VAST 4.0 Wrapper Tag</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Target CTV Supply Networks</label>
+                        <div class="checkbox-group">
+                            <label class="chk-lbl">
+                                <input type="checkbox" name="camp-publishers" value="Amagi ADS PLUS" checked> Amagi ADS PLUS
+                            </label>
+                            <label class="chk-lbl">
+                                <input type="checkbox" name="camp-publishers" value="Samsung Ads India" checked> Samsung Ads
+                            </label>
+                            <label class="chk-lbl">
+                                <input type="checkbox" name="camp-publishers" value="LG Channels India" checked> LG Channels
+                            </label>
+                            <label class="chk-lbl">
+                                <input type="checkbox" name="camp-publishers" value="Xiaomi PatchWall" checked> Xiaomi PatchWall
+                            </label>
+                            <label class="chk-lbl">
+                                <input type="checkbox" name="camp-publishers" value="Disney+ Hotstar Exchange"> Disney+ Hotstar PMP
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="camp-creative-url">VAST MP4 Video Creative URL (HD)</label>
+                        <input type="url" id="camp-creative-url" required value="https://assets.mixkit.co/videos/preview/mixkit-car-driving-in-neon-city-43184-large.mp4">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeCampaignModal()">Cancel</button>
+                        <button type="submit" class="primary-btn">Create Campaign</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js CDN Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="pricing-data.js"></script>
+    <script src="rtb-simulator.js"></script>
+    <script src="three-scene.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
